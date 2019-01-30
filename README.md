@@ -18,7 +18,7 @@ This library uses Bayesian Networks for computing Strategic Indicators.
 ## Documentation
 You can find the user documentation in the repository [Wiki](https://github.com/q-rapids/qrapids-si_assessment/wiki) and the technical documentation of the API [here](https://qrapids.github.io/qrapids-si_assessment).
 
-## Contributing
+## Contributing
 You can find guidelines to contribute to the project in the [Q-Rapids repository](https://github.com/q-rapids/q-rapids/blob/master/CONTRIBUTING.md).
 
 ## Licensing
