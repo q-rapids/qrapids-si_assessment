@@ -1,0 +1,44 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.upc.gessi.qrapids'
+version = '0.4'
+
+description = """"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'Assessment.SIAssessment'
+    }
+    baseName = 'qrapids-si_assessment'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+javadoc {
+    source = file('src/main/java/Assessment')
+    destinationDir = file('docs/javadoc')
+    options.addStringOption("nonavbar", "-quiet")
+}
+
+repositories {
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    compile files('libs/unbayes/lib/jaxme2-0.5.1.jar')
+    compile files('libs/unbayes/lib/xml-apis-1.0.b2.jar')
+    compile files('libs/unbayes/lib/commons-logging-1.0.4.jar')
+    compile files('libs/unbayes/lib/log4j-1.2.17.jar')
+    compile files('libs/unbayes/lib/jpf-1.5.jar')
+    compile files('libs/unbayes/lib/jaxmejs-0.5.1.jar')
+    compile files('libs/unbayes/lib/jaxmexs-0.5.1.jar')
+    compile files('libs/unbayes/lib/xalan-2.7.0.jar')
+    compile files('libs/unbayes/lib/jaxmeapi-0.5.1.jar')
+    compile files('libs/unbayes/lib/javahelp-2.0.02.jar')
+    compile files('libs/unbayes/lib/jaxme2-rt-0.5.1.jar')
+    compile files('libs/unbayes/unbbayes-4.22.18.jar')
+}
