@@ -6,7 +6,7 @@ This component has been created as a result of the Q-Rapids project funded by th
 ## Main Functionality
 This library uses Bayesian Networks for computing Strategic Indicators.
 
-## Technologies
+## Technologies
 |Property|Description|
 | -------------------- | ---------|
 | Type of component    | Library  |
