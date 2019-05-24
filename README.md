@@ -15,8 +15,10 @@ This library uses Bayesian Networks for computing Strategic Indicators.
 | Frameworks           | Gradle   |
 | External libraries   | UnBBayes |
 
+## How to build
+
 ## Documentation
-You can find the user documentation in the repository [Wiki](https://github.com/q-rapids/qrapids-si_assessment/wiki) and the technical documentation of the API [here](https://q-rapids.github.io/qrapids-si_assessment).
+You can find the technical documentation of the API [here](https://q-rapids.github.io/qrapids-si_assessment).
 
 ## Contributing
 You can find guidelines to contribute to the project in the [Q-Rapids repository](https://github.com/q-rapids/q-rapids/blob/master/CONTRIBUTING.md).
