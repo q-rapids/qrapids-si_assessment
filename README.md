@@ -16,6 +16,14 @@ This library uses Bayesian Networks for computing Strategic Indicators.
 | External libraries   | UnBBayes |
 
 ## How to build
+This is a Gradle project. You can use any IDE that supports Gradle to build it, or alternatively you can use the command line using the Gradle wrapper with the command *__gradlew__* if you don't have Gradle installed on your machine or with the command *__gradle__* if you do, followed by the name of the task. If you want to build this library without dependencies, use the task *__jar__*, and if you want the dependencies being included in the package, use the task *__customFatJar__*.
+
+```
+# Example: using Gradle wrapper to build with dependencies
+cd qrapids-si_assessment
+gradlew customFatJar
+```
+After the build is done the JAR file can be found at the __build/libs__ directory
 
 ## Documentation
 You can find the technical documentation of the API [here](https://q-rapids.github.io/qrapids-si_assessment).
