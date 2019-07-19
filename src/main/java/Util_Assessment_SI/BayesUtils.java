@@ -86,6 +86,7 @@ public class BayesUtils {
         List<String> elementsArray = Arrays.asList(parentElements);
         File file = new File(BNPath);
         csvWriter.append("Day,");
+        csvWriter.append(String.join(",", parentElements));
         csvWriter.append(String.join(",", childCategories));
         csvWriter.append(",High.Prob.\n");
         for (LocalDate currentDay = from; !currentDay.isAfter(to); currentDay = currentDay.plusDays(1)) {
@@ -102,18 +103,20 @@ public class BayesUtils {
             }
             if (parentStates.size() > 0) {
                 DTOSIAssessment childAssessment = SIAssessment.AssessSI(childElement, parentStates, file);
-                String[] dayProbabilities = buildDayProbabilities(childAssessment.getProbsSICategories(), currentDay);
-                csvWriter.append(String.join(",", dayProbabilities));
+                String[] dayProbabilities = buildDayProbabilities(childAssessment.getProbsSICategories());
+                String row = new StringBuilder().append(currentDay).append(",").
+                        append(String.join(",",getParentStates(parentElements, parentStates))).append(",").
+                        append(String.join(",", dayProbabilities)).toString();
+                csvWriter.append(row);
                 csvWriter.append("\n");
             }
         }
     }
 
-    private static String[] buildDayProbabilities(ArrayList<DTOSICategory> categoriesAndProbabilities, LocalDate day) {
-        String[] ret = new String[categoriesAndProbabilities.size() + 2];
-        ret[0] = day.toString();
+    private static String[] buildDayProbabilities(ArrayList<DTOSICategory> categoriesAndProbabilities) {
+        String[] ret = new String[categoriesAndProbabilities.size() + 1];
         for (int i = 0; i < categoriesAndProbabilities.size(); i++) {
-            ret[i+1] = String.valueOf(categoriesAndProbabilities.get(i).getProbSICategory());
+            ret[i] = String.valueOf(categoriesAndProbabilities.get(i).getProbSICategory());
         }
         ret[ret.length - 1] = mostProbableCategory(categoriesAndProbabilities);
         return ret;
@@ -130,6 +133,14 @@ public class BayesUtils {
             }
         }
         return highestProbabilityCategory;
+    }
+
+    private static String[] getParentStates(String parentElements[], Map<String, String> parentStatesMap) {
+        String ret[] = new String[parentElements.length];
+        for (int i = 0; i < parentElements.length; i++) {
+            ret[i] = parentStatesMap.get(parentElements[i]);
+        }
+        return ret;
     }
 
     public static Map<String, Map<String, Float>> getFrequencyQuantification(String projectId, Constants.QMLevel QMType,

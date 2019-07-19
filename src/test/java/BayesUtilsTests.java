@@ -11,11 +11,11 @@ import java.util.Map;
 public class BayesUtilsTests {
 
     public static void main(String[] args) throws Exception {
-        LocalDate dateFrom = LocalDate.of(2019,04, 29);
-        LocalDate dateTo = LocalDate.of(2019, 05, 25);
-        String projectId="mo...m";
+        LocalDate dateFrom = LocalDate.of(2019, 05, 01);//LocalDate.of(2018,12, 01);
+        LocalDate dateTo = LocalDate.of(2019, 05, 25);//LocalDate.of(2019, 05, 01);
+        String projectId="";
 
-        String ip = "b.."; //Set value before test
+        String ip = ""; //Set value before test
         int port = 9200; //Set value before test
         String path= "";
         String prefix = "";
@@ -45,15 +45,15 @@ public class BayesUtilsTests {
                                                 five_categories,
                                                 five_categories};
 
-            double[][] intervals_per_element = {{0.45f, 0.7f, 0.85f, 0.95f},
-                                            {0.2f, 0.55f, 0.7f, 0.80f},
-                                            {0.45f, 0.85f},
+            double[][] intervals_per_element = {{0.45f, 0.7f, 0.9f, 0.95f},
+                                            {0.2f, 0.7f, 0.9f, 0.99f},
+                                            {0.45f, 0.8f},
                                             {0.4f, 0.7f, 0.8f, 0.95f},
-                                            {0.4f, 0.71f, 0.85f, 0.95f},
-                                            {0.4f, 0.7f, 0.85f, 0.95f}};
+                                            {0.4f, 0.7f, 0.8f, 0.98f},
+                                            {0.4f, 0.7f, 0.8f, 0.98f}};
 
-            String BNpath = "C:/Users/Martí/....dne";
-            csvWriter = new FileWriter("C:/Users/Martí/...csv");
+            String BNpath = "";
+            csvWriter = new FileWriter("");
 
             //DISCRETIZATION
             double[] equalWidthIntervals = BayesUtils.makeEqualWidthIntervals(desiredIntervals);
@@ -65,25 +65,6 @@ public class BayesUtilsTests {
                 System.out.println("EQUAL FREQUENCY BINNING FOR " + element + " : " + Arrays.toString(equalFrequencyIntervals));
             }
 
-            //OBSERVED SCENARIOS FOR PARENT NODES
-            System.out.println("Observed combinations for elements: " + Arrays.toString(elements));
-            Map<List<String>, Integer> observedCombinations = BayesUtils.getCommonConfigurations(projectId, level,
-                    elements, categories_per_element, intervals_per_element, dateFrom, dateTo);
-            System.out.println(Arrays.toString(elements) + " : findings");
-            observedCombinations.forEach((key, value) -> System.out.println(key + " : " + value));
-
-            //OBSERVED SCENARIOS FOR CHILD NODES (PROPAGATING PROBABILITIES)
-            System.out.println("Observed combinations for elements: " + Arrays.toString(factors));
-            Map<List<String>, Integer> childsObservedCombinations = BayesUtils.getChildCommonConfigurations(projectId, level,
-                    elements, categories_per_element, intervals_per_element, factors, BNpath, dateFrom, dateTo);
-            System.out.println(Arrays.toString(elements) + " : findings");
-            childsObservedCombinations.forEach((key, value) -> System.out.println(key + " : " + value));
-
-            //SI ASSESSED STATES
-            System.out.println("Building assessments' CSV");
-            BayesUtils.buildChildPastStates(projectId, level, elements, categories_per_element, intervals_per_element,
-                    si, si_five_categories, BNpath, dateFrom, dateTo, csvWriter);
-
             //FREQUENCY QUANTIFICATION
             Map<String, Map<String, Float>> elmenentFrequencies = BayesUtils.getFrequencyQuantification(projectId, level,
                     elements, intervals_per_element, dateFrom, dateTo);
@@ -91,6 +72,27 @@ public class BayesUtilsTests {
                 System.out.println("ELEMENT " + element + " freqüency quantification:");
                 mapElementFreq.forEach((interval, percentage) -> System.out.println(interval + " : " + percentage));
             });
+
+           // OBSERVED SCENARIOS FOR PARENT NODES
+            System.out.println("Observed combinations for elements: " + Arrays.toString(elements));
+            Map<List<String>, Integer> observedCombinations = BayesUtils.getCommonConfigurations(projectId, level,
+                    elements, categories_per_element, intervals_per_element, dateFrom, dateTo);
+            System.out.println(Arrays.toString(elements) + " : findings");
+            observedCombinations.forEach((key, value) -> System.out.println(key + " : " + value));
+//
+            //OBSERVED SCENARIOS FOR CHILD NODES (PROPAGATING PROBABILITIES)
+            System.out.println("OBSERVED SCENARIOS FOR CHILD NODES (PROPAGATING PROBABILITIES)");
+            System.out.println("Observed combinations for elements: " + Arrays.toString(factors));
+            Map<List<String>, Integer> childsObservedCombinations = BayesUtils.getChildCommonConfigurations(projectId, level,
+                    elements, categories_per_element, intervals_per_element, factors, BNpath, dateFrom, dateTo);
+            System.out.println(Arrays.toString(factors) + " : findings");
+            childsObservedCombinations.forEach((key, value) -> System.out.println(key + " : " + value));
+
+            //SI ASSESSED STATES
+            System.out.println("Building assessments' CSV");
+            BayesUtils.buildChildPastStates(projectId, level, elements, categories_per_element, intervals_per_element,
+                    si, si_five_categories, BNpath, dateFrom, dateTo, csvWriter);
+
         } catch (Exception e) {
             throw e;
         }
